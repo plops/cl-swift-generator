@@ -1,0 +1,15 @@
+- download development snapshot from here:
+To install Swift for TensorFlow, download one of the packages below and follow the instructions for your operating system. After 
+
+#+begin_example
+export PATH=$PATH:/media/sdb4/swift/usr/bin/
+#+end_example
+
+#+begin_example
+martin@labolg ~/stage/cl-swift-generator/examples/01_swift_tensorflow $ sudo ln -s /usr/include/sys /usr/include/x86_64-linux-gnu
+martin@labolg ~/stage/cl-swift-generator/examples/01_swift_tensorflow $ swift test.swift
+swift: /usr/lib64/libtinfo.so.5: no version information available (required by swift)
+/media/sdb4/swift/usr/bin/swift: /usr/lib64/libtinfo.so.5: no version information available (required by /media/sdb4/swift/usr/bin/swift)
+[[2.0, 4.0],
+ [6.0, 8.0]]
+#+end_example
