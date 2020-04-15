@@ -39,8 +39,9 @@
 			   :if-does-not-exist :create)
 	  (write-sequence code-str s))
 	
-	#+nil (sb-ext:run-program "/home/martin/.cargo/bin/rustfmt"
-			    (list (namestring fn)))))))
+	 (sb-ext:run-program "/home/martin/src/swift-format/.build/x86_64-unknown-linux-gnu/release/swift-format" 
+				  
+			    (list "--in-place" (namestring fn)))))))
 
 ;; http://clhs.lisp.se/Body/s_declar.htm
 ;; http://clhs.lisp.se/Body/d_type.htm
