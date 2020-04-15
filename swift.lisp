@@ -256,10 +256,10 @@ entry return-values contains a list of return values"
       ;(format t "parse-defun:env = ~a~%" `(:env ,env :hash ,(loop for key being the hash-keys using (hash-value v) of env collect `(,key ,v))))
       (let ((req-param lambda-list))
 	;multiple-value-bind
-	#+nil(req-param opt-param res-param
+	#+nil (req-param opt-param res-param
 		   key-param other-key-p
 		   aux-param key-exist-p)
-	#+nil(parse-ordinary-lambda-list lambda-list)
+	#+nil (parse-ordinary-lambda-list lambda-list)
 	(declare (ignorable req-param opt-param res-param
 			    key-param other-key-p aux-param key-exist-p))
 	(with-output-to-string (s)
@@ -495,7 +495,7 @@ entry return-values contains a list of return values"
 		   (let ((args (cdr code)))
 		     (with-output-to-string (s)
 			   (loop for e in args collect
-				(format s "Import ~a" e)))))
+				(format s "Import ~a~%" e)))))
 		  
 		  (do0 (with-output-to-string (s)
 			 ;; do0 {form}*
@@ -862,25 +862,44 @@ entry return-values contains a list of return values"
 		      ;; a clause such as:
 		      ;; (typespec (var) (declare (ignore var)) form)
 		      ;; can be written as (typespec () form)
-		      
 
+		      ;; https://docs.swift.org/swift-book/LanguageGuide/ErrorHandling.html
 		      
-		      ;; try {
-		      ;;   // code here
+		      ;; do {
+		      ;;     try expression
+		      ;;     statements
+		      ;; } catch pattern 1 {
+		      ;;     statements
+		      ;; } catch pattern 2 where condition {
+		      ;;     statements
+		      ;; } catch {
+		      ;;     statements
 		      ;; }
-		      ;; catch (int param) { cout << "int exception"; }
-		      ;; catch (char param) { cout << "char exception"; }
-		      ;; catch (...) { cout << "default exception"; }
+
+		      ;; var vendingMachine = VendingMachine()
+		      ;; vendingMachine.coinsDeposited = 8
+		      ;; do {
+		      ;;     try buyFavoriteSnack(person: "Alice", vendingMachine: vendingMachine)
+		      ;;     print("Success! Yum.")
+		      ;; } catch VendingMachineError.invalidSelection {
+		      ;;     print("Invalid Selection.")
+		      ;; } catch VendingMachineError.outOfStock {
+		      ;;     print("Out of Stock.")
+		      ;; } catch VendingMachineError.insufficientFunds(let coinsNeeded) {
+		      ;;     print("Insufficient funds. Please insert an additional \(coinsNeeded) coins.")
+		      ;; } catch {
+		      ;;     print("Unexpected error: \(error).")
+		      ;; }
 		      
 		      (destructuring-bind (expr &rest clauses) (cdr code)
 			(with-output-to-string (s)
-			  (format s "try ~a"
+			  (format s "do ~a"
 				  (if (eq 'progn (car expr))
 				      (emit expr)
 				      (emit `(progn ,expr))))
 			  (loop for clause in clauses do
 			       (destructuring-bind (typespec (var) &rest forms) clause
-				 (format s "catch (~a) ~a"
+				 (format s "catch ~a ~a"
 					 (if (and (eq 't typespec)
 						  (null var))
 					     (format nil "...")
