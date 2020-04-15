@@ -230,7 +230,7 @@ entry return-values contains a list of return values"
 			`(do0
 			  ,@(loop for decl in decls collect
 				  (destructuring-bind (name &optional value) decl
-				    (format nil "let ~a ~@[ = ~a~];"
+				    (format nil "let ~a ~@[ = ~a~]"
 					    (let ((l (variable-declaration :name name :env env :emit emit
 									   :mutable-default mutable-default)))
 					      (if (listp l)
@@ -559,7 +559,10 @@ entry return-values contains a list of return values"
 								   *keywords-without-semicolon*))
 						      (= count (- (length args) 1)))
 						  "" 
-						  (format nil "; // ~a" count))))
+						  (format nil
+					;"; // ~a"
+							  " // ~a"
+							  count))))
 				     (incf count)))
 			       args)))))
 		  (include (let ((args (cdr code)))
@@ -915,7 +918,16 @@ entry return-values contains a list of return values"
 				   )
 			   ;; function call
 			   
-			   
+			   (let* ((positional (loop for i below (length args) until (keywordp (elt args i)) collect
+					       (elt args i)))
+			      (plist (subseq args (length positional)))
+			      (props (loop for e in plist by #'cddr collect e)))
+			 (format nil "~a~a" name
+				 (emit `(paren ,@(append
+						  positional
+						  (loop for e in props collect
+						       (format nil "~a: ~a" e (getf plist e))))))))
+			   #+nil
 			   (progn	;if
 			     
 			     #+nil(and
