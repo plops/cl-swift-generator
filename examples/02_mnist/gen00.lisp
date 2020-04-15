@@ -56,13 +56,25 @@
 	       "public extension String"
 	       (curly
 		(space @discardableResult
-		       (defun shell (_ "args: String...")
+		       (defun shell ( "_ args: String...")
 			 (declare (values String))
 			 (let (((values task pipe) (values (Process)
 							   (Pipe))))
-			   (setf task.executableURL (URL :fileURLWithPath self)))))))
-	      )
-	     ))) 
+			   (setf task.executableURL (URL :fileURLWithPath self)
+				 (values task.arguments
+					 task.standardOutput) (values args pipe))
+			   (handler-case
+			       (progn
+				(space "try"
+				       (task.run)))
+			     (t (print (string "unexpected error: \\(error)."))))
+			   (let ((data (pipe.fileHandleForReading.readDataToEndOfFile)))
+			     (return (?? (String :data data
+						 :encoding String.Encoding.utf8)
+					 (string "")))))))))
+	      (print (dot (string "/bin/ls")
+			  (shell (string "-lh"))))
+	      "// ")))) 
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
  
 

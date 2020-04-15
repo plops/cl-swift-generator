@@ -491,11 +491,11 @@ entry return-values contains a list of return values"
 		       (format nil "~a?" (emit (car args)))))
 		  (import
 		   ;; import {a}* 
-		   ;; (import a b))) => Import a\nImport b
+		   ;; (import a b))) => import a\nimport b
 		   (let ((args (cdr code)))
 		     (with-output-to-string (s)
 			   (loop for e in args collect
-				(format s "Import ~a~%" e)))))
+				(format s "import ~a~%" e)))))
 		  
 		  (do0 (with-output-to-string (s)
 			 ;; do0 {form}*
@@ -675,6 +675,8 @@ entry return-values contains a list of return values"
 			(format nil "(~a)!=(~a)" (emit a) (emit b))))
 		  (== (destructuring-bind (a b) (cdr code)
 			(format nil "(~a)==(~a)" (emit a) (emit b))))
+		  (?? (destructuring-bind (a b) (cdr code)
+			(format nil "(~a) ?? (~a)" (emit a) (emit b))))
 		  (< (destructuring-bind (a b) (cdr code)
 		       (format nil "~a<~a" (emit a) (emit b))))
 		  (% (destructuring-bind (a b) (cdr code)
@@ -859,13 +861,9 @@ entry return-values contains a list of return values"
 		      ;; if typespec is t, catch any kind of exception
 
 		      ;; (handler-case (progn forma formb)
-		      ;;   (typespec1 (var1) form1)
-		      ;;   (typespec2 (var2) form2))
-
-		      ;; a clause such as:
-		      ;; (typespec (var) (declare (ignore var)) form)
-		      ;; can be written as (typespec () form)
-
+		      ;;   (pattern1 form1)
+		      ;;   (pattern form2))
+		      
 		      ;; https://docs.swift.org/swift-book/LanguageGuide/ErrorHandling.html
 		      
 		      ;; do {
@@ -901,12 +899,11 @@ entry return-values contains a list of return values"
 				      (emit expr)
 				      (emit `(progn ,expr))))
 			  (loop for clause in clauses do
-			       (destructuring-bind (typespec (var) &rest forms) clause
+			       (destructuring-bind (pattern &rest forms) clause
 				 (format s "catch ~a ~a"
-					 (if (and (eq 't typespec)
-						  (null var))
-					     (format nil "...")
-					     (format nil "~a ~a" typespec var))
+					 (if (eq 't pattern)
+					     (format nil "")
+					     (format nil "~a" pattern))
 					 (emit `(progn ,@forms))))))))
 		  (t (destructuring-bind (name &rest args) code
 
