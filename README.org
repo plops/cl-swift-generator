@@ -96,6 +96,14 @@ https://swift.org/builds/swift-5.2.1-release/ubuntu1604/swift-5.2.1-RELEASE/swif
 swift package init --type=executable
   #+end_example
 
+* Code formatter
+  #+begin_example 
+  cd ~/src
+  git clone https://github.com/apple/swift-format
+  cd swift-format
+  swift build -v -c release  -j 12
+  #+end_example
+
 * Examples
 
 |    | comment            |
