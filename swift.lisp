@@ -1,11 +1,11 @@
 #-nil
 (progn (ql:quickload "alexandria")
-       (defpackage :cl-rust-generator
+       (defpackage :cl-swift-generator
 	 (:use :cl
 	       :alexandria)
 	 (:export
 	  #:write-source
-	  #:emit-rs)))
+	  #:emit-swift)))
 
 
 (declaim (optimize (speed 0)
@@ -13,7 +13,7 @@
 		   (debug 3)))
 					;(setf *features* (union *features* '(:generic-c)))
 ;(setf *features* (set-difference *features* '(:generic-c)))
-(in-package :cl-rust-generator)
+(in-package :cl-swift-generator)
 
 (setf (readtable-case *readtable*) :invert)
 
@@ -38,8 +38,8 @@
 			   :if-exists :supersede
 			   :if-does-not-exist :create)
 	  (write-sequence code-str s))
-
-	(sb-ext:run-program "/home/martin/.cargo/bin/rustfmt"
+	
+	#+nil (sb-ext:run-program "/home/martin/.cargo/bin/rustfmt"
 			    (list (namestring fn)))))))
 
 ;; http://clhs.lisp.se/Body/s_declar.htm

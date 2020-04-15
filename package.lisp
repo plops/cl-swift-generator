@@ -1,8 +1,6 @@
-(defpackage :cl-kotlin-generator
+(defpackage :cl-swift-generator
   (:use :cl
 	:alexandria)
   (:export
    #:write-source
-   #:emit-xml
-   #:emit-kt
-   #:write-xml))
+   #:emit-swift))

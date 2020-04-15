@@ -1,12 +1,12 @@
-(asdf:defsystem cl-kotlin-generator
+(asdf:defsystem cl-swift-generator
     :version "0"
-    :description "Emit kotlin Language code"
+    :description "Emit swift Language code"
     :maintainer " <kielhorn.martin@gmail.com>"
     :author " <kielhorn.martin@gmail.com>"
     :licence "GPL"
     :depends-on ("alexandria")
     :serial t
     :components ((:file "package")
-		 (:file "kotlin")
-		 (:file "xml")
+		 (:file "swift")
+		 ;(:file "xml")
 		 ) )

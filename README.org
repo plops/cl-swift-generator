@@ -3,7 +3,12 @@
 The purpose of this Lisp package is to bring the power of Common Lisp
 macros to swift development.
 
-This is the ninth in a series of code generators.
+This is the ninth in a series of code generators. Originally I
+intended to write an iOS App but lost interest very fast because I
+didn't have any hardware. Now (April 2020) I have access to an iPhone
+but I'm actually more interested in Swift4Tensorflow and Jeremy
+Howards fast.ai work.
+
 
 - https://github.com/plops/cl-cpp-generator I tried this generator
   with C/C++/ISPC/OpenCL/Cuda. It was my first attempt. The largest
@@ -64,6 +69,10 @@ This is the ninth in a series of code generators.
   code. They are however so large (>20Mb) that I wonder if writing
   Common Lisp directly wouldn't be the better approach.
 
+- https://github.com/plops/cl-rust-generator (working quite well). I
+  wrote a few small examples with rust. The ecosystem seems a bit
+  unstable right now.
+
 
 * Install swift in Arch Linux
 
@@ -71,20 +80,26 @@ This is the ninth in a series of code generators.
 aurman -S swift-bin
 #+END_EXAMPLE
   
+* Install swift in Gentoo
+https://github.com/tensorflow/swift/blob/master/Installation.md
 
 
 * Examples
 
-|    | comment                                                                                                 |
-|----+---------------------------------------------------------------------------------------------------------|
-| 01 | define layout in xml for a few buttons and some kotlin handlers (based on Big Nerd Ranch quiz_activity) |
-|    |                                                                                                         |
+|    | comment            |
+|----+--------------------|
+| 01 | tensorflow example |
+|    |                    |
 
 * Developing the first example 
 
 
 
 * References
+
+- swift tensorflow
+   - https://github.com/fastai/course-v3/blob/master/nbs/swift/00_load_data.ipynb machine learning in swift
+   - https://github.com/fastai/course-v3/blob/master/nbs/dl2/02_fully_connected.ipynb
 
 
 * References (Library Books)
