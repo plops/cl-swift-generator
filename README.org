@@ -69,6 +69,10 @@ Howards fast.ai work.
   code. They are however so large (>20Mb) that I wonder if writing
   Common Lisp directly wouldn't be the better approach.
 
+- https://github.com/plops/cl-cpp-generator2 Second version of the C
+  code generator with semantics that match Common Lisp more closely
+  (function calls, type declarations).
+
 - https://github.com/plops/cl-rust-generator (working quite well). I
   wrote a few small examples with rust. The ecosystem seems a bit
   unstable right now.
