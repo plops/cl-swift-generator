@@ -85,7 +85,16 @@ aurman -S swift-bin
   
 * Install swift in Gentoo
 https://github.com/tensorflow/swift/blob/master/Installation.md
+   - 'swift build' doesnt work with this
 
+https://swift.org/builds/swift-5.2.1-release/ubuntu1604/swift-5.2.1-RELEASE/swift-5.2.1-RELEASE-ubuntu16.04.tar.gz
+   - 'swift build' works
+
+
+* Package
+  #+begin_example
+swift package init --type=executable
+  #+end_example
 
 * Examples
 

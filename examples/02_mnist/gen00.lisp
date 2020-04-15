@@ -5,8 +5,8 @@
 
 (progn
   (defparameter *path* "/home/martin/stage/cl-swift-generator/examples/02_mnist")
-  (defparameter *code-file* "run_00_mnist.swift")
-  (defparameter *source* (format nil "~a/source/~a" *path* *code-file*))
+  (defparameter *code-file* "Sources/source/main.swift")
+  (defparameter *source* (format nil "~a/~a" *path* *code-file*))
   (defparameter *inspection-facts*
     `((10 "")))
   (defparameter *day-names*
