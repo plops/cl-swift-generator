@@ -5,9 +5,8 @@ macros to swift development.
 
 This is the ninth in a series of code generators. Originally I
 intended to write an iOS App but lost interest very fast because I
-didn't have any hardware. Now (April 2020) I have access to an iPhone
-but I'm actually more interested in Swift4Tensorflow and Jeremy
-Howards fast.ai work.
+didn't have any hardware. Now (April 2020) I became more interested in
+Swift4Tensorflow and Jeremy Howards fast.ai work.
 
 
 - https://github.com/plops/cl-cpp-generator I tried this generator
