@@ -90,6 +90,11 @@ https://github.com/tensorflow/swift/blob/master/Installation.md
 https://swift.org/builds/swift-5.2.1-release/ubuntu1604/swift-5.2.1-RELEASE/swift-5.2.1-RELEASE-ubuntu16.04.tar.gz
    - 'swift build' works
 
+- i manged to run swift build by replacing swift-build that comes with
+  the tensorflow version with the working swift-build of swift-5.2.1
+
+
+
 * Build swift tensorflow from source (on gentoo)
 
 https://github.com/apple/swift/blob/tensorflow/README.md
@@ -112,6 +117,10 @@ export SWIFT_BUILD_DIR="/media/sdb4/swift-source/build/Ninja-ReleaseAssert/swift
 ./swift/utils/build-toolchain-tensorflow $BUNDLE_PREFIX --gpu
 
 #+end_example
+
+- it complained about -ltinfo. i had to make sure the correct llvm-config is in the first $PATH
+- i didn't succeed finishing this build
+
 
 * Swiftai
 
@@ -151,4 +160,5 @@ swift package init --type=executable
 * References (Library Books)
 
 ** Learning Swift
+ 
  
