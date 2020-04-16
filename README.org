@@ -90,6 +90,32 @@ https://github.com/tensorflow/swift/blob/master/Installation.md
 https://swift.org/builds/swift-5.2.1-release/ubuntu1604/swift-5.2.1-RELEASE/swift-5.2.1-RELEASE-ubuntu16.04.tar.gz
    - 'swift build' works
 
+* Build swift tensorflow from source (on gentoo)
+
+https://github.com/apple/swift/blob/tensorflow/README.md
+
+- up to 70 GB of disk space for the build artifacts with full debugging
+
+#+begin_example
+sudo emerge bazel # needs java :-(
+cd /media/sdb4/swift-source
+git clone https://github.com/apple/swift.git -b tensorflow
+./swift/utils/update-checkout --clone --scheme tensorflow
+# folder is now 4.1GB
+swift/utils/build-script -j 12 --enable-tensorflow --release
+# folder is now 9.5GB
+cd swift
+time utils/build-script --preset=tensorflow_test --release
+export BUNDLE_PREFIX=com.example
+export PATH=/media/sdb4/swift-source/build/Ninja-ReleaseAssert/llvm-linux-x86_64/bin/:$PATH
+export SWIFT_BUILD_DIR="/media/sdb4/swift-source/build/Ninja-ReleaseAssert/swift-linux-x86_64/"
+./swift/utils/build-toolchain-tensorflow $BUNDLE_PREFIX --gpu
+
+#+end_example
+
+* Swiftai
+
+https://github.com/fastai/swiftai
 
 * Package
   #+begin_example
