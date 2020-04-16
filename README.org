@@ -115,7 +115,7 @@ export SWIFT_BUILD_DIR="/media/sdb4/swift-source/build/Ninja-ReleaseAssert/swift
 
 * Swiftai
 
-https://github.com/fastai/swiftai
+https://github.com/fastai/swiftai 
 
 * Package
   #+begin_example
