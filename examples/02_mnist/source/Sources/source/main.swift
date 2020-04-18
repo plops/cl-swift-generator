@@ -5,8 +5,8 @@ import Just
 import Path
 import TensorFlow
 
-let _code_git_version = "54a2b1eaf2a56e78082d5a338642134f93c764d4"
-let _code_generation_time = "13:39:49 of Saturday, 2020-04-18 (GMT+1)"
+let _code_git_version = "ddd86a3335b8853f889bfafa625f84cb3cc91e5f"
+let _code_generation_time = "13:44:06 of Saturday, 2020-04-18 (GMT+1)"
 extension String {
   @discardableResult public func shell(_ args: String...) -> String {
     let (task, pipe) = (Process(), Pipe())
@@ -130,5 +130,13 @@ func swiftMatmul(a: [Float], b: [Float], aDims: (Int, Int), bDims: (Int, Int)) -
     }
   }
   return res
+}
+let flatA = xTrain[(0)..<(5)].scalars
+let flatB = weights.scalars
+let (aDims, bDims) = ((5, 784), (784, 10))
+var resultArray = swiftMatmul(a: flatA, b: flatB, aDims: aDims, bDims: bDims)
+
+time(repeating: 100) {
+  _ = swiftMatmul(a: flatA, b: flatB, aDims: aDims, bDims: bDims)
 }
 // 

@@ -233,7 +233,7 @@
 
 	       
 	       
-	       (let ((zeros (Tensor<Float> :zeros (list 1 4 5)))
+	        (let ((zeros (Tensor<Float> :zeros (list 1 4 5)))
 		     (ones (Tensor<Float> :ones (list 12 4 5)))
 		     (twos (Tensor<Float> :repeating 2.0 :shape (list 2 3 4 5)))
 		     (range (Tensor<Int32> :rangeFrom 0 :to 32 :stride 1))
@@ -263,7 +263,23 @@
 				     (aref b (+ (* k bDims.1)
 						j)))))))
 		      (return res)))
-	       
+
+
+	       (let ((flatA (dot (aref xTrain (..< 0 5))
+				 scalars))
+		     (flatB weights.scalars)
+		     ((values aDims bDims) (values (values 5 784)
+						  (values 784 10)))
+		     )
+		 (var ((resultArray (swiftMatmul :a flatA
+						 :b flatB
+						 :aDims aDims
+						 :bDims bDims))))
+		 (time :repeating 100) (progn
+					 (setf _ (swiftMatmul :a flatA
+						 :b flatB
+						 :aDims aDims
+						 :bDims bDims))))
 	       
 	       )
 	      "// ")))) 
