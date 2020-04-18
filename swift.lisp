@@ -488,8 +488,7 @@ entry return-values contains a list of return values"
 					,name
 					(progn
 					  ,@body)))))
-		  (? (let ((args (cdr code)))
-		       (format nil "~a?" (emit (car args)))))
+		  
 		  (import
 		   ;; import {a}* 
 		   ;; (import a b))) => import a\nimport b
@@ -672,12 +671,18 @@ entry return-values contains a list of return values"
 			(format nil "(~a)^=(~a)" (emit a) (emit b))))
 		  (<= (destructuring-bind (a b) (cdr code)
 			(format nil "(~a)<=(~a)" (emit a) (emit b))))
+		  
 		  (!= (destructuring-bind (a b) (cdr code)
 			(format nil "(~a)!=(~a)" (emit a) (emit b))))
 		  (== (destructuring-bind (a b) (cdr code)
 			(format nil "(~a)==(~a)" (emit a) (emit b))))
 		  (?? (destructuring-bind (a b) (cdr code)
 			(format nil "(~a) ?? (~a)" (emit a) (emit b))))
+		  (? (destructuring-bind (a b &optional c) (cdr code)
+			(if c
+			    (format nil "(~a) ? (~a) : (~a)" (emit a) (emit b) (emit c))
+			    (format nil "(~a) ? (~a)" (emit a) (emit b)))))
+		  (! (format nil "(~a)!" (emit (cadr code))))
 		  (< (destructuring-bind (a b) (cdr code)
 		       (format nil "~a<~a" (emit a) (emit b))))
 		  (% (destructuring-bind (a b) (cdr code)
@@ -705,6 +710,7 @@ entry return-values contains a list of return values"
 				      str
 				      list-of-hash)))
 		  (char (format nil "'~a'" (cadr code)))
+		 
 		  (hex (destructuring-bind (number) (cdr code)
 			 (format nil "0x~x" number)))
 		  (if (destructuring-bind (condition true-statement &optional false-statement) (cdr code)
@@ -924,7 +930,7 @@ entry return-values contains a list of return values"
 				 (emit `(paren ,@(append
 						  positional
 						  (loop for e in props collect
-						       (format nil "~a: ~a" e (getf plist e))))))))
+						       (format nil "~a: ~a" e (emit (getf plist e)))))))))
 			   #+nil
 			   (progn	;if
 			     

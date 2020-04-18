@@ -141,10 +141,11 @@ swift package init --type=executable
 
 * Examples
 
-|    | comment            |
-|----+--------------------|
-| 01 | tensorflow example |
-|    |                    |
+|    | comment            |                                                                              |
+|----+--------------------+------------------------------------------------------------------------------|
+| 01 | tensorflow example |                                                                              |
+| 02 | fastai example     | https://github.com/fastai/course-v3/blob/master/nbs/swift/00_load_data.ipynb |
+|    |                    |                                                                              |
 
 * Developing the first example 
 
