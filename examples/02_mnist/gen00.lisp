@@ -216,6 +216,15 @@
 			       ,@(loop for e in `(avg min max) collect
 				      `(print (string ,(format nil "~a: \\(~a)" e e))))))
 			)))
+
+	      (do0
+	       (time :repeating 10)
+	       (progn
+		 (setf _ (as (loadMNIST :training false
+				     :labels false
+				     :path mnistPath
+				     :flat false)
+			     Tensor<Float>))))
 	      
 	      "// ")))) 
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))

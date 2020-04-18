@@ -2,8 +2,8 @@ import Foundation
 import Just
 import Path
 import TensorFlow
-let _code_git_version  = "b745710ac3b1db85be8c76b223f968dd66ee91ac"
-let _code_generation_time  = "12:18:41 of Saturday, 2020-04-18 (GMT+1)"
+let _code_git_version  = "2a7ac41f857a498b44cbcc20e388267c0f4dbd46"
+let _code_generation_time  = "12:21:57 of Saturday, 2020-04-18 (GMT+1)"
 public extension String {@discardableResult func shell (_ args: String...) -> String{
             let (task, pipe)  = (Process(), Pipe())
         task.executableURL=URL(fileURLWithPath: self)
@@ -85,5 +85,9 @@ public func time (repeating: Int = 1, _ f: () -> ()){
                         f()
 }
         var times = [Double]()
+}
+time(repeating: 10)
+{
+            _=(loadMNIST(training: false, labels: false, path: mnistPath, flat: false)) as (Tensor<Float>)
 }
 // 

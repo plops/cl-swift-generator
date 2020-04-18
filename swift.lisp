@@ -684,6 +684,8 @@ entry return-values contains a list of return values"
 			(format nil "(~a)!=(~a)" (emit a) (emit b))))
 		  (== (destructuring-bind (a b) (cdr code)
 			(format nil "(~a)==(~a)" (emit a) (emit b))))
+		  (as (destructuring-bind (a b) (cdr code)
+			(format nil "(~a) as (~a)" (emit a) (emit b))))
 		  (?? (destructuring-bind (a b) (cdr code)
 			(format nil "(~a) ?? (~a)" (emit a) (emit b))))
 		  (? (destructuring-bind (a b &optional c) (cdr code)
