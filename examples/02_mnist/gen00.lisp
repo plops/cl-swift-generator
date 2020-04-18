@@ -108,43 +108,55 @@
 	       (downloadFile (string "https://storage.googleapis.com/cvdf-datasets/mnist/train-images-idx3-ubyte.gz")))
 
 	      (do0
+	       (space "protocol ConvertibleFromByte: TensorFlowScalar"
+		      (progn
+		       (init "_ d: UInt8")))
 	       ,@(loop for e in `(Float Int32) collect
-		      `(defun loadMNIST ("training: Bool"
-					 "labels: Bool"
-					 "path: Path"
-					 "flat: Bool")
-			 (declare (values ,(format nil "Tensor<~a>" e)))
-			 (let ((split (? training (string "train") (string "t10k")))
-			       (kind (? labels (string "labels") (string "images")))
-			       (batch (? training 60000 10000))
-			       ("shape: TensorShape"
-				(? labels
-				   (list batch)
-				   (? flat
-				      (list batch 784)
-				      (list batch 28 28))))
-			       (dropK (? labels 8 16))
-			       (baseURL (string "https://storage.googleapis.com/cvdf-datasets/mnist/"))
-			       (fname (+ split
-					 (string "-")
-					 kind
-					 (string "-idx\\(labels ? 1 : 3)-ubyte")))
-			       (file (/ path fname)))
-			   (unless file.exists
-			     (let ((gz (dot (/ path (string "\\(fname).gz")) string)))
-			       (downloadFile (string "\\(baseURL)\\(fname).gz")
-					    :dest gz
-					    )
-			       (dot (string "/bin/gunzip")
-						 (shell (string "-fq")
-							gz))))
-			   (let ((data (space try!
-					      (dot (Data :contentsOf (URL :fileURLWithPath file.string))
-						   (dropFirst dropK)))))
-			     (if labels
-				 (return (Tensor data.map (dot ,e init)))
-				 (return (dot (Tensor data.map (dot ,e init))
-					      (reshaped :to shape)))))))))
+		      (format nil "extension ~a : ConvertibleFromByte {}" e))
+
+	       (space "extension Data"
+		      (progn
+		       (defun "asTensor<T: ConvertibleFromByte>" ()
+			 (declare (values Tensor<T>))
+			 (return (Tensor (map T.init))))))
+	       
+	       (defun "loadMNIST<T: ConvertibleFromByte>" ("training: Bool"
+				    "labels: Bool"
+				    "path: Path"
+				    "flat: Bool")
+		    (declare (values ,(format nil "Tensor<T>")))
+		    (let ((split (? training (string "train") (string "t10k")))
+			  (kind (? labels (string "labels") (string "images")))
+			  (batch (? training 60000 10000))
+			  ("shape: TensorShape"
+			   (? labels
+			      (list batch)
+			      (? flat
+				 (list batch 784)
+				 (list batch 28 28))))
+			  (dropK (? labels 8 16))
+			  (baseURL (string "https://storage.googleapis.com/cvdf-datasets/mnist/"))
+			  (fname (+ split
+				    (string "-")
+				    kind
+				    (string "-idx\\(labels ? 1 : 3)-ubyte")))
+			  (file (/ path fname)))
+		      (unless file.exists
+			(let ((gz (dot (/ path (string "\\(fname).gz")) string)))
+			  (downloadFile (string "\\(baseURL)\\(fname).gz")
+					:dest gz
+					)
+			  (dot (string "/bin/gunzip")
+			       (shell (string "-fq")
+				      gz))))
+		      (let ((data (space try!
+					 (dot (Data :contentsOf (URL :fileURLWithPath file.string))
+					      (dropFirst dropK)))))
+			(if labels
+			    (return (data.asTensor))
+			    (return (dot data
+					 (asTensor)
+					 (reshaped :to shape))))))))
 	      "// ")))) 
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
  
