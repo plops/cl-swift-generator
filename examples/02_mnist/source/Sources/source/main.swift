@@ -5,8 +5,8 @@ import Just
 import Path
 import TensorFlow
 
-let _code_git_version = "bea498b3bec6d5fe8d3aef18041cdbb719a6f283"
-let _code_generation_time = "12:41:36 of Saturday, 2020-04-18 (GMT+1)"
+let _code_git_version = "7877d38348bf687ace9f72b57198590586403941"
+let _code_generation_time = "13:22:05 of Saturday, 2020-04-18 (GMT+1)"
 extension String {
   @discardableResult public func shell(_ args: String...) -> String {
     let (task, pipe) = (Process(), Pipe())
@@ -40,7 +40,6 @@ public func downloadFile(_ url: String, dest: String? = nil, force: Bool = false
     print("Can't reach \(url).")
   }
 }
-downloadFile("https://storage.googleapis.com/cvdf-datasets/mnist/train-images-idx3-ubyte.gz")
 protocol ConvertibleFromByte: TensorFlowScalar {
   init(_ d: UInt8)
 }
@@ -88,8 +87,6 @@ public func loadMNIST(path: Path, flat: Bool = false) -> (
   )
 }
 public let mnistPath = ((Path.home) / (".fastai") / ("data") / ("mnist_tst"))
-let (xTrain, yTrain, xValid, yValid) = loadMNIST(path: mnistPath)
-print(xTrain.shape)
 public func time(repeating: Int = 1, _ f: () -> Void) {
   guard 0 < repeating else {
     return

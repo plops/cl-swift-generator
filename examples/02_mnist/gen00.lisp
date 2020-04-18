@@ -105,6 +105,7 @@
 					    (cts.write :to (URL :fileURLWithPath dest_name))))
 				 (t (print (string "Can't write to \\(url_dest).\\n \\(error)"))))
 			       (print (string "Can't reach \\(url).")))))))
+	       #+nil
 	       (downloadFile (string "https://storage.googleapis.com/cvdf-datasets/mnist/train-images-idx3-ubyte.gz")))
 
 	      (do0
@@ -184,7 +185,7 @@
 				    (string ".fastai")
 				    (string "data")
 				    (string "mnist_tst"))))))
-	       (let (((values xTrain yTrain
+	       #+nil (let (((values xTrain yTrain
 			      xValid yValid)
 		      (loadMNIST :path mnistPath)))
 		 (print xTrain.shape))
@@ -216,7 +217,7 @@
 			       ,@(loop for e in `(avg mi  ma) collect
 				      `(print (string ,(format nil "~a: \\(~a)" e e))))))
 			)))
-
+	      
 	      (do0
 	       (time :repeating 10)
 	       (progn
