@@ -1,0 +1,5 @@
+* compile release
+
+  #+begin_example
+swift build -j 12 -c release -Xcc -march=native
+  #+end_example
