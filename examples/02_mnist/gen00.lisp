@@ -213,7 +213,7 @@
 					   (Double times.count)))
 				   (mi (times.reduce (aref times 0) min))
 				   (ma (times.reduce (aref times 0) max)))
-			       ,@(loop for e in `(avg mi ma) collect
+			       ,@(loop for e in `(avg mi  ma) collect
 				      `(print (string ,(format nil "~a: \\(~a)" e e))))))
 			)))
 

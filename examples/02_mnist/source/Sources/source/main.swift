@@ -2,8 +2,8 @@ import Foundation
 import Just
 import Path
 import TensorFlow
-let _code_git_version  = "d339f16864defcf3d3ef257164d20cd64b701c5b"
-let _code_generation_time  = "12:27:15 of Saturday, 2020-04-18 (GMT+1)"
+let _code_git_version  = "800faf26daffa7110c3315931023b97b5d20dbf1"
+let _code_generation_time  = "12:32:39 of Saturday, 2020-04-18 (GMT+1)"
 public extension String {@discardableResult func shell (_ args: String...) -> String{
             let (task, pipe)  = (Process(), Pipe())
         task.executableURL=URL(fileURLWithPath: self)
@@ -84,7 +84,8 @@ public func time (repeating: Int = 1, _ f: () -> ()){
         if  1<repeating  {
                         f()
 }
-        var times = [Double]()    for  _ in 1...repeating {
+        var times = [Double]()
+    for  _ in 1...repeating {
                         let start  = DispatchTime.now()
         f()
                 let end  = DispatchTime.now()
