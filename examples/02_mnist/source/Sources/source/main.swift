@@ -2,8 +2,8 @@ import Foundation
 import Just
 import Path
 import TensorFlow
-let _code_git_version  = "392e6480300521d6d6b27e130066daa2c68cbdfc"
-let _code_generation_time  = "11:28:30 of Saturday, 2020-04-18 (GMT+1)"
+let _code_git_version  = "db3bc6310ab4624ece59f4ed4b9b82d0a1df6e6c"
+let _code_generation_time  = "11:46:38 of Saturday, 2020-04-18 (GMT+1)"
 public extension String {@discardableResult func shell (_ args: String...) -> String{
             let (task, pipe)  = (Process(), Pipe())
         task.executableURL=URL(fileURLWithPath: self)
@@ -66,4 +66,11 @@ func loadMNIST<T: ConvertibleFromByte> (training: Bool, labels: Bool, path: Path
                 return data.asTensor().reshaped(to: shape)
 }
 }
+public func loadMNIST (path: Path, flat: Bool = false) -> (Tensor<Float>, Tensor<Int32>, Tensor<Float>, Tensor<Int32>){
+        try! path.mkdir(.p)
+        return (((loadMNIST(training: true, labels: false, path: path, flat: flat))*(3.921569e-3)), loadMNIST(training: true, labels: true, path: path, flat: flat), ((loadMNIST(training: false, labels: false, path: path, flat: flat))*(3.921569e-3)), loadMNIST(training: false, labels: true, path: path, flat: flat))
+}
+public let mnistPath  = ((Path.home)/(".fastai")/("data")/("mnist_tst"))
+let (xTrain, yTrain, xValid, yValid)  = loadMNIST(path: mnistPath)
+print(xTrain.shape)
 // 

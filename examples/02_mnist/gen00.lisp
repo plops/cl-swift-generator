@@ -156,7 +156,37 @@
 			    (return (data.asTensor))
 			    (return (dot data
 					 (asTensor)
-					 (reshaped :to shape))))))))
+					 (reshaped :to shape)))))))
+
+	       (space public
+		      (defun loadMNIST ("path: Path"
+					"flat: Bool = false")
+			(declare (values Tensor<Float>
+					 Tensor<Int32>
+					 Tensor<Float>
+					 Tensor<Int32>))
+			(space try! (path.mkdir .p))
+			(return (values
+				 ,@(loop for e in `((true false 255.0)
+						    (true true)
+						    (false false 255.0)
+						    (false true))
+				      collect
+					(destructuring-bind (training labels &optional scale) e
+					  (if scale
+					      `(* (loadMNIST :training ,training :labels ,labels :path path :flat flat)
+						  ,(/ 1s0 scale))
+					      `(loadMNIST :training ,training :labels ,labels :path path :flat flat))))))))
+	       (space public
+		(let ((mnistPath (/ Path.home
+				    (string ".fastai")
+				    (string "data")
+				    (string "mnist_tst"))))))
+	       (let (((values xTrain yTrain
+			      xValid yValid)
+		      (loadMNIST :path mnistPath)))
+		 (print xTrain.shape))
+	       )
 	      "// ")))) 
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
  
