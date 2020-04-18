@@ -187,6 +187,20 @@
 		      (loadMNIST :path mnistPath)))
 		 (print xTrain.shape))
 	       )
+
+	      (do0
+	       "// timing"
+	       (import Dispatch)
+	       (space public
+		      (defun time ("repeating: Int = 1"
+				   "_ f: () -> ()")
+			(guard (< 0 repeating)
+			       return)
+			(when (< 1 repeating)
+			  (f))
+			(let* ((times ("[Double]"))))
+			)))
+	      
 	      "// ")))) 
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
  

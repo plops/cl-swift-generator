@@ -619,6 +619,14 @@ entry return-values contains a list of return values"
 			       (format nil "(~{~a~^..~})" (mapcar #'emit args))))
 		  (let (parse-let code #'emit :mutable-default nil))
 		  (let* (parse-let code #'emit :mutable-default t))
+		  (var
+		   (destructuring-bind (decls &rest body) (cdr code)
+		     (with-output-to-string (s)
+		      (loop for decl in decls do
+			   (destructuring-bind (name &optional value) decl
+			     (format s "var ~a~@[ = ~a~]"
+				     (funcall emit name)
+				     (funcall emit value)))))))
 		  (setf 
 		   (let ((args (cdr code)))
 		     ;; "setf {pair}*"
@@ -721,6 +729,12 @@ entry return-values contains a list of return values"
 			  (when false-statement
 			    (format s " else ~a"
 				    (emit `(progn ,false-statement)))))))
+		  (guard (destructuring-bind (expr false-statement) (cdr code)
+			   (with-output-to-string (s)
+			     (format s "guard ~a "
+				     (emit expr))
+			     (format s " else ~a"
+				     (emit `(progn ,false-statement))))))
 		  (when (destructuring-bind (condition &rest forms) (cdr code)
 			  (emit `(if ,condition
 				     (do0
