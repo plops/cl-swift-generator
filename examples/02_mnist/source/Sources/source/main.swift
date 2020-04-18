@@ -5,8 +5,8 @@ import Just
 import Path
 import TensorFlow
 
-let _code_git_version = "7877d38348bf687ace9f72b57198590586403941"
-let _code_generation_time = "13:22:05 of Saturday, 2020-04-18 (GMT+1)"
+let _code_git_version = "54a2b1eaf2a56e78082d5a338642134f93c764d4"
+let _code_generation_time = "13:39:49 of Saturday, 2020-04-18 (GMT+1)"
 extension String {
   @discardableResult public func shell(_ args: String...) -> String {
     let (task, pipe) = (Process(), Pipe())
@@ -110,7 +110,25 @@ public func time(repeating: Int = 1, _ f: () -> Void) {
   print("mi: \(mi)")
   print("ma: \(ma)")
 }
-time(repeating: 10) {
-  _ = (loadMNIST(training: false, labels: false, path: mnistPath, flat: false)) as (Tensor<Float>)
+// matmul example https://github.com/fastai/course-v3/blob/master/nbs/swift/01_matmul.ipynb
+let zeros = Tensor<Float>(zeros: [1, 4, 5])
+let ones = Tensor<Float>(ones: [12, 4, 5])
+let twos = Tensor<Float>(repeating: 2.00, shape: [2, 3, 4, 5])
+let range = Tensor<Int32>(rangeFrom: 0, to: 32, stride: 1)
+let xTrain = Tensor<Float>(randomNormal: [5, 784])
+var weights = ((Tensor<Float>(randomNormal: [784, 10])) / (sqrt(784)))
+print(weights[0])
+func swiftMatmul(a: [Float], b: [Float], aDims: (Int, Int), bDims: (Int, Int)) -> [Float] {
+  assert((aDims.1) == (bDims.0), "matmul shape mismatch")
+  var res = Array(repeating: Float(0.0), count: ((aDims.0) * (aDims.1)))
+  for i in (0)..<(aDims.0) {
+    for j in (0)..<(bDims.1) {
+      for k in (0)..<(aDims.1) {
+        res[(((i) * (bDims.1)) + j)] +=
+          ((a[(((i) * (aDims.1)) + k)]) * (b[(((k) * (bDims.1)) + j)]))
+      }
+    }
+  }
+  return res
 }
 // 

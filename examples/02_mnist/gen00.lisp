@@ -217,7 +217,8 @@
 			       ,@(loop for e in `(avg mi  ma) collect
 				      `(print (string ,(format nil "~a: \\(~a)" e e))))))
 			)))
-	      
+
+	      #+nil
 	      (do0
 	       (time :repeating 10)
 	       (progn
@@ -226,7 +227,45 @@
 				     :path mnistPath
 				     :flat false)
 			     Tensor<Float>))))
-	      
+	      (do0
+	       "// matmul example https://github.com/fastai/course-v3/blob/master/nbs/swift/01_matmul.ipynb"
+
+
+	       
+	       
+	       (let ((zeros (Tensor<Float> :zeros (list 1 4 5)))
+		     (ones (Tensor<Float> :ones (list 12 4 5)))
+		     (twos (Tensor<Float> :repeating 2.0 :shape (list 2 3 4 5)))
+		     (range (Tensor<Int32> :rangeFrom 0 :to 32 :stride 1))
+		     )
+		 (let ((xTrain (Tensor<Float> :randomNormal (list 5 784)))
+		       )
+		   (var ((weights (/ (Tensor<Float> :randomNormal (list 784 10))
+				     (sqrt 784))))
+			(print (aref weights 0)))))
+
+	       (defun swiftMatmul ("a: [Float]" "b: [Float]" "aDims: (Int, Int)" "bDims: (Int, Int)")
+		 (declare ;(type "[Float]" a b)
+					;(type (tuple Int Int) aDims bDims)
+		  (values "[Float]"))
+		 (assert (== aDims.1 bDims.0)
+			 (string "matmul shape mismatch"))
+		 (var ((res (Array :repeating (Float 0.0)
+				   :count (* aDims.0
+					     aDims.1))))
+		      (dotimes (i aDims.0)
+			(dotimes (j bDims.1)
+			  (dotimes (k aDims.1)
+			    (incf (aref res (+ (* i bDims.1)
+					       j))
+				  (* (aref a (+ (* i aDims.1)
+						k))
+				     (aref b (+ (* k bDims.1)
+						j)))))))
+		      (return res)))
+	       
+	       
+	       )
 	      "// ")))) 
     (write-source (format nil "~a/source/~a" *path* *code-file*) code)))
  
