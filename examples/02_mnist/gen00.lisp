@@ -141,6 +141,8 @@
 				    kind
 				    (string "-idx\\(labels ? 1 : 3)-ubyte")))
 			  (file (/ path fname)))
+		      ,@(loop for e in `(file file.exists) collect
+				      `(print (string ,(format nil "~a: \\(~a)" e e))))
 		      (unless file.exists
 			(let ((gz (dot (/ path (string "\\(fname).gz")) string)))
 			  (downloadFile (string "\\(baseURL)\\(fname).gz")
@@ -198,7 +200,21 @@
 			       return)
 			(when (< 1 repeating)
 			  (f))
-			(let* ((times ("[Double]"))))
+			(var ((times ("[Double]")))
+			     (for (_ "1...repeating")
+				  (let ((start (DispatchTime.now)))
+				    (f)
+				    (let ((end (DispatchTime.now))
+					  (nanoseconds (Double (- end.uptimeNanoseconds
+								  start.uptimeNanoseconds)))
+					  (milliseconds (* nanoseconds 1e-6)))
+				      (times.append milliseconds))))
+			     (let ((avg (/ (times.reduce 0.0 +)
+					   (Double times.count)))
+				   (min (times.reduce (aref times 0) min))
+				   (max (times.reduce (aref times 0) max)))
+			       ,@(loop for e in `(avg min max) collect
+				      `(print (string ,(format nil "~a: \\(~a)" e e))))))
 			)))
 	      
 	      "// ")))) 

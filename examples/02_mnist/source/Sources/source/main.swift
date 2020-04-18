@@ -2,8 +2,8 @@ import Foundation
 import Just
 import Path
 import TensorFlow
-let _code_git_version  = "db3bc6310ab4624ece59f4ed4b9b82d0a1df6e6c"
-let _code_generation_time  = "11:46:38 of Saturday, 2020-04-18 (GMT+1)"
+let _code_git_version  = "b745710ac3b1db85be8c76b223f968dd66ee91ac"
+let _code_generation_time  = "12:18:41 of Saturday, 2020-04-18 (GMT+1)"
 public extension String {@discardableResult func shell (_ args: String...) -> String{
             let (task, pipe)  = (Process(), Pipe())
         task.executableURL=URL(fileURLWithPath: self)
@@ -54,6 +54,8 @@ func loadMNIST<T: ConvertibleFromByte> (training: Bool, labels: Bool, path: Path
     let baseURL  = "https://storage.googleapis.com/cvdf-datasets/mnist/"
     let fname  = (split+"-"+kind+"-idx\(labels ? 1 : 3)-ubyte")
     let file  = ((path)/(fname))
+    print("file: \(file)")
+    print("file.exists: \(file.exists)")
     if  !(file.exists)  {
                                 let gz  = ((path)/("\(fname).gz")).string
         downloadFile("\(baseURL)\(fname).gz", dest: gz)
@@ -73,4 +75,15 @@ public func loadMNIST (path: Path, flat: Bool = false) -> (Tensor<Float>, Tensor
 public let mnistPath  = ((Path.home)/(".fastai")/("data")/("mnist_tst"))
 let (xTrain, yTrain, xValid, yValid)  = loadMNIST(path: mnistPath)
 print(xTrain.shape)
+// timing
+import Dispatch
+public func time (repeating: Int = 1, _ f: () -> ()){
+        guard 0<repeating  else {
+                return
+}
+        if  1<repeating  {
+                        f()
+}
+        var times = [Double]()
+}
 // 

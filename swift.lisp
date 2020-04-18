@@ -625,8 +625,8 @@ entry return-values contains a list of return values"
 		      (loop for decl in decls do
 			   (destructuring-bind (name &optional value) decl
 			     (format s "var ~a~@[ = ~a~]"
-				     (funcall emit name)
-				     (funcall emit value)))))))
+				     (emit name)
+				     (emit value)))))))
 		  (setf 
 		   (let ((args (cdr code)))
 		     ;; "setf {pair}*"
