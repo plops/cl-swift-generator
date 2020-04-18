@@ -357,7 +357,7 @@ entry return-values contains a list of return values"
   pattern."
   
   (let* ((a f)
-	 (digits 1)
+	 (digits 2)
 	 (b (- a 1)))
     (unless (= a 0)
      (loop while (< 1d-6
@@ -377,7 +377,7 @@ entry return-values contains a list of return values"
   pattern."
 
   (let* ((a f)
-	 (digits 1)
+	 (digits 2)
 	 (b (- a 1)))
 
     (unless (= a 0)			; (< (abs a) 1d-30)
@@ -624,9 +624,12 @@ entry return-values contains a list of return values"
 		     (with-output-to-string (s)
 		      (loop for decl in decls do
 			   (destructuring-bind (name &optional value) decl
-			     (format s "var ~a~@[ = ~a~]"
+			     (format s "var ~a~@[ = ~a~]~%"
 				     (emit name)
-				     (emit value)))))))
+				     (emit value))))
+		      (format s "~a~%"
+			      (emit `(do0 ,@body)))
+		      )))
 		  (setf 
 		   (let ((args (cdr code)))
 		     ;; "setf {pair}*"

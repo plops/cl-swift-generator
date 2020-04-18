@@ -211,9 +211,9 @@
 				      (times.append milliseconds))))
 			     (let ((avg (/ (times.reduce 0.0 +)
 					   (Double times.count)))
-				   (min (times.reduce (aref times 0) min))
-				   (max (times.reduce (aref times 0) max)))
-			       ,@(loop for e in `(avg min max) collect
+				   (mi (times.reduce (aref times 0) min))
+				   (ma (times.reduce (aref times 0) max)))
+			       ,@(loop for e in `(avg mi ma) collect
 				      `(print (string ,(format nil "~a: \\(~a)" e e))))))
 			)))
 
