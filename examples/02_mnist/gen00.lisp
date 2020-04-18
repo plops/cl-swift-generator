@@ -208,7 +208,7 @@
 					  (nanoseconds (Double (- end.uptimeNanoseconds
 								  start.uptimeNanoseconds)))
 					  (milliseconds (* nanoseconds 1e-6)))
-				      (times.append milliseconds))))
+				      (times.append milliseconds)))) 
 			     (let ((avg (/ (times.reduce 0.0 +)
 					   (Double times.count)))
 				   (mi (times.reduce (aref times 0) min))
